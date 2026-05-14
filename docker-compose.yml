@@ -1,10 +1,12 @@
 version: "3.1"
 
 services:
-  postgres-rol:
+  postgres-role:
     image: postgres:16
-    container_name: rol_db
+    container_name: role_db
     restart: always
+    env_file:
+      - ./role-service-core/.env
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -12,12 +14,12 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - rol_db:/var/lib/postgresql/data
+      - role_db:/var/lib/postgresql/data
     networks:
       - kafka
 
 volumes:
-  rol_db:
+  role_db:
 
 networks:
   kafka:
