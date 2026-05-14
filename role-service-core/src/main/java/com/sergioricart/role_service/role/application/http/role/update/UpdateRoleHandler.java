@@ -1,7 +1,8 @@
-package com.sergioricart.role_service.role.application.http.created;
+package com.sergioricart.role_service.role.application.http.role.update;
 
 import com.sergioricart.commons.application.CommandHandler;
 import com.sergioricart.commons.application.VoidResponse;
+import com.sergioricart.role_service.role.application.http.role.created.CreateRoleCommand;
 import com.sergioricart.role_service.role.domain.entity.Page;
 import com.sergioricart.role_service.role.domain.entity.Role;
 import com.sergioricart.role_service.role.domain.event.RoleCreatedDomainEvent;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class CreateRoleHandler implements CommandHandler<CreateRoleCommand, VoidResponse> {
+public class UpdateRoleHandler implements CommandHandler<UpdateRoleCommand, VoidResponse> {
 
     private final RoleRepository roleRepository;
 
@@ -30,29 +31,14 @@ public class CreateRoleHandler implements CommandHandler<CreateRoleCommand, Void
 
     @Override
     @Transactional
-    public VoidResponse handle(CreateRoleCommand command) {
+    public VoidResponse handle(UpdateRoleCommand command) {
 
-        log.info("Creating role: {}", command);
-
-        List<Page> pages = pageRepository.findAllByIds(command.getPagesId());
-
-        Role role = Role.builder()
-                .id(UUID.randomUUID().toString())
-                .name(command.getName())
-                .description(command.getDescription())
-                .pages(pages)
-                .createdAt(Instant.now())
-                .build();
-
-        roleRepository.save(role);
-
-        roleEvent.sendRoleCreatedEvent(RoleCreatedDomainEvent.of(role));
 
         return new VoidResponse();
     }
 
     @Override
-    public Class<CreateRoleCommand> getCommandType() {
-        return CreateRoleCommand.class;
+    public Class<UpdateRoleCommand> getCommandType() {
+        return UpdateRoleCommand.class;
     }
 }

@@ -2,6 +2,7 @@ package com.sergioricart.role_service.role.infrastructure.database.role;
 
 import com.sergioricart.role_service.role.domain.entity.Role;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,5 +11,9 @@ public interface RoleEntityMapper {
 
     RoleEntity mapToRoleEntity(Role role);
 
+    @Mapping(target = "pages", ignore = true)
+    Role mapToRoleWithoutPages(RoleEntity entity);
+
+    Role mapToRoleWithPages(RoleEntity entity);
 
 }

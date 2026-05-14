@@ -5,6 +5,9 @@ import com.sergioricart.role_service.role.domain.port.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class RoleRepositoryImpl implements RoleRepository {
@@ -16,5 +19,19 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public void save(Role role) {
         roleRepositoryData.save(roleDatabaseMapper.mapToRoleEntity(role));
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepositoryData.findAll()
+                .stream()
+                .map(roleDatabaseMapper::mapToRoleWithoutPages)
+                .toList();
+    }
+
+    @Override
+    public Optional<Role> findById(String id) {
+        return roleRepositoryData.findWithPagesById(id)
+                .map(roleDatabaseMapper::mapToRoleWithPages);
     }
 }

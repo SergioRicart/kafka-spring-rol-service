@@ -1,4 +1,4 @@
-package com.sergioricart.role_service.role.application.http.created;
+package com.sergioricart.role_service.role.application.http.role.created;
 
 import com.sergioricart.commons.application.Command;
 import com.sergioricart.commons.application.VoidResponse;
