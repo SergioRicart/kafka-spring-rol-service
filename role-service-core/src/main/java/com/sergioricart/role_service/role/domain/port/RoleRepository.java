@@ -13,4 +13,6 @@ public interface RoleRepository {
 
     Optional<Role> findById(String id);
 
+    void deleteById(String id);
+
 }

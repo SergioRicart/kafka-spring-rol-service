@@ -22,4 +22,6 @@ public class Role {
 
     private Instant updatedAt;
 
+    private Instant deletedAt;
+
 }

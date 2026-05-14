@@ -22,6 +22,7 @@ public interface RoleApiMapper {
     @Mapping(source = "idPages", target = "pagesId")
     CreateRoleCommand mapToCreateRoleCommand(RoleCreatedRequest request);
 
+    @Mapping(source = "idPages", target = "pagesId")
     UpdateRoleCommand mapToUpdateRoleCommand(RoleUpdatedRequest request);
 
     RoleResponse mapToRoleResponse(Role role);

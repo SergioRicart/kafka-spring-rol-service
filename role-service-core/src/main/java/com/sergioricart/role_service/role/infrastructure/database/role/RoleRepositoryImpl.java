@@ -5,6 +5,7 @@ import com.sergioricart.role_service.role.domain.port.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public List<Role> findAll() {
-        return roleRepositoryData.findAll()
+        return roleRepositoryData.findAllByDeletedAtIsNull()
                 .stream()
                 .map(roleDatabaseMapper::mapToRoleWithoutPages)
                 .toList();
@@ -31,7 +32,12 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public Optional<Role> findById(String id) {
-        return roleRepositoryData.findWithPagesById(id)
+        return roleRepositoryData.findWithPagesByIdAndDeletedAtIsNull(id)
                 .map(roleDatabaseMapper::mapToRoleWithPages);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        roleRepositoryData.deleteById(id, Instant.now());
     }
 }
