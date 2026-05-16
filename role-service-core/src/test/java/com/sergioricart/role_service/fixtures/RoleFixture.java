@@ -5,8 +5,7 @@ import com.sergioricart.role_service.role.application.http.role.delete.DeleteRol
 import com.sergioricart.role_service.role.application.http.role.update.UpdateRoleCommand;
 import com.sergioricart.role_service.role.domain.entity.Page;
 import com.sergioricart.role_service.role.domain.entity.Role;
-import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleCreatedRequest;
-import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleUpdatedRequest;
+import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleRequestBase;
 
 import java.time.Instant;
 import java.util.List;
@@ -104,16 +103,16 @@ public final class RoleFixture {
 
     // ── DTOs HTTP ─────────────────────────────────────────────────────────────
 
-    public static RoleCreatedRequest aRoleCreatedRequest() {
-        RoleCreatedRequest request = new RoleCreatedRequest();
+    public static RoleRequestBase aRoleCreatedRequest() {
+        RoleRequestBase request = new RoleRequestBase();
         request.setName(ROLE_NAME);
         request.setDescription(ROLE_DESCRIPTION);
         request.setIdPages(List.of(PAGE_ID_1, PAGE_ID_2));
         return request;
     }
 
-    public static RoleUpdatedRequest aPartialRoleUpdatedRequest() {
-        RoleUpdatedRequest request = new RoleUpdatedRequest();
+    public static RoleRequestBase aPartialRoleUpdatedRequest() {
+        RoleRequestBase request = new RoleRequestBase();
         request.setName(UPDATED_NAME);
         return request;
     }

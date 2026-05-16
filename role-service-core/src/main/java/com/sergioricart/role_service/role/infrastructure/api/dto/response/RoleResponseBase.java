@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Data
 @Builder
-public class RoleResponse {
+public class RoleResponseBase {
 
     private String id;
 

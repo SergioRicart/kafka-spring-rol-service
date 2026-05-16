@@ -3,7 +3,7 @@ package com.sergioricart.role_service.role.infrastructure.api.controller;
 import com.sergioricart.commons.application.Mediator;
 import com.sergioricart.role_service.fixtures.RoleFixture;
 import com.sergioricart.role_service.role.infrastructure.api.contoller.PageController;
-import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageResponse;
+import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class PageControllerTest {
 
     @Test
     void getPagesByRole_givenExistingRoleId_returns200WithPages() throws Exception {
-        PageResponse pageResponse = PageResponse.builder()
+        PageResponseBase pageResponse = PageResponseBase.builder()
                 .id(RoleFixture.PAGE_ID_1)
                 .name("Dashboard")
                 .url("/dashboard")

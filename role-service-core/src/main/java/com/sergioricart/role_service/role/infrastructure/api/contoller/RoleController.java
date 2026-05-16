@@ -10,14 +10,14 @@ import com.sergioricart.role_service.role.application.http.role.update.UpdateRol
 import com.sergioricart.role_service.role.domain.constant.RoleConstants;
 import com.sergioricart.role_service.role.domain.entity.Role;
 import com.sergioricart.role_service.role.domain.exception.RoleNotFonundException;
-import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleCreatedRequest;
-import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleUpdatedRequest;
-import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponse;
+import com.sergioricart.role_service.role.infrastructure.api.dto.request.RoleRequestBase;
+import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +33,9 @@ public class RoleController {
 
     private final RoleApiMapper apiMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
-    public ResponseEntity<?> createRole(@RequestBody RoleCreatedRequest roleDto) {
+    public ResponseEntity<?> createRole(@RequestBody RoleRequestBase roleDto) {
 
         log.info("Creating role: {}", roleDto);
 
@@ -47,7 +48,7 @@ public class RoleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoleResponse>> getAllRoles() {
+    public ResponseEntity<List<RoleResponseBase>> getAllRoles() {
 
         log.info("Getting all roles");
 
@@ -58,7 +59,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleResponse> getRoleById(@PathVariable String id) {
+    public ResponseEntity<RoleResponseBase> getRoleById(@PathVariable String id) {
 
         log.info("Getting role by id: {}", id);
 
@@ -78,8 +79,9 @@ public class RoleController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateRole(@PathVariable String id, @RequestBody RoleUpdatedRequest request) {
+    public ResponseEntity<?> updateRole(@PathVariable String id, @RequestBody RoleRequestBase request) {
 
         log.info("Updating role: {}", id);
 
@@ -92,6 +94,7 @@ public class RoleController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRole(@PathVariable String id) {
 

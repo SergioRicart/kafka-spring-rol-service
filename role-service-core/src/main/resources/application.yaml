@@ -18,6 +18,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 app:
+  jwt:
+    secret: ${JWT_SECRET}
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     group-id: spring-service-group

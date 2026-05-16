@@ -3,7 +3,7 @@ package com.sergioricart.role_service.role.infrastructure.api.contoller;
 import com.sergioricart.commons.application.Mediator;
 import com.sergioricart.role_service.role.application.http.page.findByRole.GetPagesByRoleQuery;
 import com.sergioricart.role_service.role.domain.entity.Page;
-import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageResponse;
+import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class PageController {
     private final RoleApiMapper apiMapper;
 
     @GetMapping("/role/{roleId}")
-    public ResponseEntity<List<PageResponse>> getPagesByRole(@PathVariable String roleId) {
+    public ResponseEntity<List<PageResponseBase>> getPagesByRole(@PathVariable String roleId) {
 
         log.info("Getting pages for role: {}", roleId);
 

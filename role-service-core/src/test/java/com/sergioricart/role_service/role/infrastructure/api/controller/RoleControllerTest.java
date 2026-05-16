@@ -8,7 +8,7 @@ import com.sergioricart.role_service.role.application.http.role.delete.DeleteRol
 import com.sergioricart.role_service.role.application.http.role.update.UpdateRoleCommand;
 import com.sergioricart.role_service.role.domain.exception.RoleNotFonundException;
 import com.sergioricart.role_service.role.infrastructure.api.contoller.RoleController;
-import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponse;
+import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +59,7 @@ class RoleControllerTest {
 
     @Test
     void getAllRoles_returns200WithList() throws Exception {
-        RoleResponse response = RoleResponse.builder()
+        RoleResponseBase response = RoleResponseBase.builder()
                 .id(RoleFixture.ROLE_ID)
                 .name(RoleFixture.ROLE_NAME)
                 .description(RoleFixture.ROLE_DESCRIPTION)
@@ -87,7 +87,7 @@ class RoleControllerTest {
 
     @Test
     void getRoleById_givenExistingId_returns200() throws Exception {
-        RoleResponse response = RoleResponse.builder()
+        RoleResponseBase response = RoleResponseBase.builder()
                 .id(RoleFixture.ROLE_ID)
                 .name(RoleFixture.ROLE_NAME)
                 .build();
