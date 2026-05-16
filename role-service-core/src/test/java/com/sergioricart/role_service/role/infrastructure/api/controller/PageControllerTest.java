@@ -7,6 +7,8 @@ import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageRe
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,7 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(PageController.class)
+@WebMvcTest(controllers = PageController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class, SecurityFilterAutoConfiguration.class})
 class PageControllerTest {
 
     @Autowired
@@ -29,6 +31,34 @@ class PageControllerTest {
 
     @MockitoBean
     private RoleApiMapper roleApiMapper;
+
+    // ──────────────── GET /api/v1/page ────────────────
+
+    @Test
+    void getAllPages_returns200WithList() throws Exception {
+        PageResponseBase pageResponse = PageResponseBase.builder()
+                .id(RoleFixture.PAGE_ID_1)
+                .name("Dashboard")
+                .url("/dashboard")
+                .build();
+        when(mediator.dispatch(any())).thenReturn(RoleFixture.somePages());
+        when(roleApiMapper.mapToPageResponseList(any())).thenReturn(List.of(pageResponse));
+
+        mockMvc.perform(get(RoleFixture.GET_ALL_PAGES_PATH))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(RoleFixture.PAGE_ID_1));
+    }
+
+    @Test
+    void getAllPages_whenNoPages_returns200WithEmptyList() throws Exception {
+        when(mediator.dispatch(any())).thenReturn(List.of());
+        when(roleApiMapper.mapToPageResponseList(any())).thenReturn(List.of());
+
+        mockMvc.perform(get(RoleFixture.GET_ALL_PAGES_PATH))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
+    }
 
     // ──────────────── GET /api/v1/page/role/{roleId} ────────────────
 

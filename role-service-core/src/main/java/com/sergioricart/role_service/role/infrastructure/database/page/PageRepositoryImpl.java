@@ -24,4 +24,12 @@ public class PageRepositoryImpl implements PageRepository {
                 .toList();
     }
 
+    @Override
+    public List<Page> findAll() {
+        return pageRepositoryData.findAll()
+                .stream()
+                .map(roleEntityMapper::mapToPage)
+                .toList();
+    }
+
 }

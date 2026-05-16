@@ -1,6 +1,7 @@
 package com.sergioricart.role_service.role.infrastructure.api.contoller;
 
 import com.sergioricart.commons.application.Mediator;
+import com.sergioricart.role_service.role.application.http.page.findAll.GetAllPagesQuery;
 import com.sergioricart.role_service.role.application.http.page.findByRole.GetPagesByRoleQuery;
 import com.sergioricart.role_service.role.domain.entity.Page;
 import com.sergioricart.role_service.role.infrastructure.api.dto.response.PageResponseBase;
@@ -24,6 +25,13 @@ public class PageController {
     private final Mediator mediator;
 
     private final RoleApiMapper apiMapper;
+
+    @GetMapping
+    public ResponseEntity<List<PageResponseBase>> getAllPages() {
+        log.info("Getting all pages");
+        List<Page> pages = mediator.dispatch(new GetAllPagesQuery());
+        return ResponseEntity.ok(apiMapper.mapToPageResponseList(pages));
+    }
 
     @GetMapping("/role/{roleId}")
     public ResponseEntity<List<PageResponseBase>> getPagesByRole(@PathVariable String roleId) {

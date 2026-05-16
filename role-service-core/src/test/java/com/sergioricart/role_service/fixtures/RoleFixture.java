@@ -33,6 +33,7 @@ public final class RoleFixture {
     public static final String GET_ROLE_BY_ID_PATH = "/api/v1/role/";
     public static final String UPDATE_ROLE_PATH    = "/api/v1/role/";
     public static final String DELETE_ROLE_PATH    = "/api/v1/role/";
+    public static final String GET_ALL_PAGES_PATH    = "/api/v1/page";
     public static final String GET_PAGES_BY_ROLE_PATH = "/api/v1/page/role/";
 
     // ── Objetos de dominio ────────────────────────────────────────────────────

@@ -7,11 +7,14 @@ import com.sergioricart.role_service.fixtures.RoleFixture;
 import com.sergioricart.role_service.role.application.http.role.delete.DeleteRoleCommand;
 import com.sergioricart.role_service.role.application.http.role.update.UpdateRoleCommand;
 import com.sergioricart.role_service.role.domain.exception.RoleNotFonundException;
+import com.sergioricart.role_service.role.infrastructure.api.contoller.PageController;
 import com.sergioricart.role_service.role.infrastructure.api.contoller.RoleController;
 import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -27,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(RoleController.class)
+@WebMvcTest(controllers = RoleController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class, SecurityFilterAutoConfiguration.class})
 class RoleControllerTest {
 
     @Autowired
