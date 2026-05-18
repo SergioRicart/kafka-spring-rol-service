@@ -1,0 +1,72 @@
+name: CD — Publish package
+
+on:
+  push:
+    branches: [main, development]
+
+jobs:
+  publish:
+    name: Publish to GitHub Packages
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: sricart
+          POSTGRES_PASSWORD: ci_password
+          POSTGRES_DB: role_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Configure Maven credentials
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << EOF
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${MAVEN_USERNAME}</username>
+                <password>${MAVEN_TOKEN}</password>
+              </server>
+              <server>
+                <id>sergioricart-commons</id>
+                <username>${MAVEN_USERNAME}</username>
+                <password>${MAVEN_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Publish package
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: role_db
+          DB_USER: sricart
+          DB_PASSWORD: ci_password
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+          SCHEMA_REGISTRY_URL: http://localhost:8081
+        run: ./mvnw --no-transfer-progress deploy -DskipTests
