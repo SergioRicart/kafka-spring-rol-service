@@ -5,12 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RoleUpdatedRequest {
+public class RoleRequestBase {
 
     private String name;
 
     private String description;
 
     private List<String> idPages;
-
 }

@@ -8,4 +8,6 @@ public interface PageRepository {
 
     List<Page> findAllByIds(List<String> ids);
 
+    List<Page> findAll();
+
 }

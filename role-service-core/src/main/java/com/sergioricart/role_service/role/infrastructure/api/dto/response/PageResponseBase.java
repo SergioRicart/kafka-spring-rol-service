@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PageResponse {
+public class PageResponseBase {
 
     private String id;
 

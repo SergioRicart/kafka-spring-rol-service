@@ -7,11 +7,14 @@ import com.sergioricart.role_service.fixtures.RoleFixture;
 import com.sergioricart.role_service.role.application.http.role.delete.DeleteRoleCommand;
 import com.sergioricart.role_service.role.application.http.role.update.UpdateRoleCommand;
 import com.sergioricart.role_service.role.domain.exception.RoleNotFonundException;
+import com.sergioricart.role_service.role.infrastructure.api.contoller.PageController;
 import com.sergioricart.role_service.role.infrastructure.api.contoller.RoleController;
-import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponse;
+import com.sergioricart.role_service.role.infrastructure.api.dto.response.RoleResponseBase;
 import com.sergioricart.role_service.role.infrastructure.api.mapper.RoleApiMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -27,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(RoleController.class)
+@WebMvcTest(controllers = RoleController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class, SecurityFilterAutoConfiguration.class})
 class RoleControllerTest {
 
     @Autowired
@@ -59,7 +62,7 @@ class RoleControllerTest {
 
     @Test
     void getAllRoles_returns200WithList() throws Exception {
-        RoleResponse response = RoleResponse.builder()
+        RoleResponseBase response = RoleResponseBase.builder()
                 .id(RoleFixture.ROLE_ID)
                 .name(RoleFixture.ROLE_NAME)
                 .description(RoleFixture.ROLE_DESCRIPTION)
@@ -87,7 +90,7 @@ class RoleControllerTest {
 
     @Test
     void getRoleById_givenExistingId_returns200() throws Exception {
-        RoleResponse response = RoleResponse.builder()
+        RoleResponseBase response = RoleResponseBase.builder()
                 .id(RoleFixture.ROLE_ID)
                 .name(RoleFixture.ROLE_NAME)
                 .build();
